@@ -1,0 +1,43 @@
+version: '3'
+networks:
+    frontend:
+      driver: bridge         
+    backend:
+      driver: bridge
+services: 
+    nginx:
+        image: nginx:mainline-alpine
+        depends_on:
+          - mariadb
+        logging:
+          driver: syslog
+          options:
+            tag: "{{.DaemonName}}(image={{.ImageName}};name={{.Name}};id={{.ID}})"
+        networks:
+          - frontend
+        ports:
+          - '8080:80'
+          - '443:443'
+        restart: on-failure
+        volumes:
+          - ./nginx/sites:/etc/nginx/conf.d:ro
+          - ../src:/var/www/
+
+    mariadb:
+        image: linuxserver/mariadb:latest
+        container_name: mariadb
+        ports: 
+            - '3307:3306'
+            - '3308:3307'
+            - '3309:3308'
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: mydancebay
+            MYSQL_USER: mydancebay
+            MYSQL_PASSWORD: secret
+        volumes:
+            - ./mariadb:/var/lib/mysql
+        networks: 
+            - backend
+    
+        
