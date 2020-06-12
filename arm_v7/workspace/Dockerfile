@@ -185,7 +185,7 @@ RUN echo "" >> ~/.bashrc && \
 USER laradock
 
 # Check if global install need to be ran
-ARG COMPOSER_GLOBAL_INSTALL=false
+ARG COMPOSER_GLOBAL_INSTALL=true
 ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
 
 RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
