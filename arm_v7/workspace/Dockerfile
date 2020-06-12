@@ -14,7 +14,7 @@
 
 ARG PHP_VERSION
 ARG BASE_IMAGE_TAG_PREFIX=latest
-FROM ubuntu:latest
+FROM ubuntu:bionic
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
@@ -46,7 +46,7 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
     rm -rf /tmp/sources.sh \
 ;fi
 
-RUN apt -y install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates
+# RUN apt -y install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates
 
 # Add the "PHP 7" ppa
 RUN add-apt-repository -y \
