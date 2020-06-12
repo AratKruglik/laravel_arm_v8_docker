@@ -1,5 +1,5 @@
 ARG MARIADB_VERSION=latest
-FROM mariadb:latest
+FROM ugeek/mariadb:arm
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 

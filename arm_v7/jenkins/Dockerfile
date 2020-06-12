@@ -1,4 +1,4 @@
-FROM openjdk:15-oraclelinux7
+FROM adoptopenjdk:12.0.1_12-jdk-hotspot-bionic
 
 RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
 

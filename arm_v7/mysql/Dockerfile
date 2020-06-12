@@ -1,5 +1,5 @@
 ARG MYSQL_VERSION
-FROM mysql/mysql-server:${MYSQL_VERSION}
+FROM biarms/mysql:5.7.30-beta-travis
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
