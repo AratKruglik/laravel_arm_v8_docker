@@ -14,7 +14,7 @@
 
 ARG PHP_VERSION
 ARG BASE_IMAGE_TAG_PREFIX=latest
-FROM phusion/baseimage:focal-1.0.0alpha1-arm
+FROM ubuntu:latest
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
