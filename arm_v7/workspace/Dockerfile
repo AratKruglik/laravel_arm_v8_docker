@@ -40,6 +40,8 @@ ARG CHANGE_SOURCE=false
 ARG UBUNTU_SOURCE
 COPY ./sources.sh /tmp/sources.sh
 
+RUN useradd -ms /bin/bash laradock
+
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
     chmod +x /tmp/sources.sh && \
     /bin/sh -c /tmp/sources.sh && \
@@ -141,25 +143,25 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # User Aliases
 ###########################################################################
 
-USER root
+# USER root
 
-COPY ./aliases.sh /root/aliases.sh
-COPY ./aliases.sh /home/laradock/aliases.sh
+# COPY ./aliases.sh /root/aliases.sh
+# COPY ./aliases.sh /home/laradock/aliases.sh
 
-RUN sed -i 's/\r//' /root/aliases.sh && \
-    sed -i 's/\r//' /home/laradock/aliases.sh && \
-    chown laradock:laradock /home/laradock/aliases.sh && \
-    echo "" >> ~/.bashrc && \
-    echo "# Load Custom Aliases" >> ~/.bashrc && \
-    echo "source ~/aliases.sh" >> ~/.bashrc && \
-	  echo "" >> ~/.bashrc
+# RUN sed -i 's/\r//' /root/aliases.sh && \
+#     sed -i 's/\r//' /home/laradock/aliases.sh && \
+#     chown laradock:laradock /home/laradock/aliases.sh && \
+#     echo "" >> ~/.bashrc && \
+#     echo "# Load Custom Aliases" >> ~/.bashrc && \
+#     echo "source ~/aliases.sh" >> ~/.bashrc && \
+# 	  echo "" >> ~/.bashrc
 
-USER laradock
+# USER laradock
 
-RUN echo "" >> ~/.bashrc && \
-    echo "# Load Custom Aliases" >> ~/.bashrc && \
-    echo "source ~/aliases.sh" >> ~/.bashrc && \
-	  echo "" >> ~/.bashrc
+# RUN echo "" >> ~/.bashrc && \
+#     echo "# Load Custom Aliases" >> ~/.bashrc && \
+#     echo "source ~/aliases.sh" >> ~/.bashrc && \
+# 	  echo "" >> ~/.bashrc
 
 ###########################################################################
 # Composer:
