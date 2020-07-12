@@ -170,7 +170,7 @@ RUN echo "" >> ~/.bashrc && \
 RUN curl -sS https://getcomposer.org/installer | php -- \
          --filename=composer \
          --install-dir=/usr/local/bin && \
-         echo "alias composer='composer'" >> /root/.bashrc && \
+         echo "alias composer='composer'" >> /home/root/.bashrc && \
          composer
 
 # Export composer vendor path
