@@ -169,24 +169,6 @@ RUN echo "" >> ~/.bashrc && \
 
 USER root
 
-# Check if global install need to be ran
-ARG COMPOSER_GLOBAL_INSTALL=false
-ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
-
-RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
-    # run the install
-    composer global install \
-;fi
-
-# Check if auth file is disabled
-ARG COMPOSER_AUTH=false
-ENV COMPOSER_AUTH ${COMPOSER_AUTH}
-
-RUN if [ ${COMPOSER_AUTH} = false ]; then \
-    # remove the file
-    rm /home/root/.composer/auth.json \
-;fi
-
 ARG COMPOSER_REPO_PACKAGIST
 ENV COMPOSER_REPO_PACKAGIST ${COMPOSER_REPO_PACKAGIST}
 
