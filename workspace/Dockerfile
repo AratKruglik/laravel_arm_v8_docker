@@ -177,7 +177,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc
 
-RUN composer install --prefer-source --no-interaction
+#RUN composer install --prefer-source --no-interaction
 
 ###########################################################################
 # Non-root user : PHPUnit path
