@@ -135,7 +135,7 @@ COPY aliases.sh /home/root/aliases.sh
 
 RUN sed -i 's/\r//' /root/aliases.sh && \
     sed -i 's/\r//' /home/root/aliases.sh && \
-    chown root:root /home/root/aliases.sh && \
+#    chown root:root /home/root/aliases.sh && \
     echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
