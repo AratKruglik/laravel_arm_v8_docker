@@ -80,9 +80,9 @@ RUN apt-get update && apt-get install -y --force-yes \
  RUN set -xe; \
      apt-get update -yqq && \
      pecl channel-update pecl.php.net && \
-     groupadd -g ${PGID} root && \
-     useradd -u ${PUID} -g root -m root -G docker_env && \
-     usermod -p "*" root -s /bin/bash && \
+#     groupadd -g ${PGID} root && \
+#     useradd -u ${PUID} -g root -m root -G docker_env && \
+#     usermod -p "*" root -s /bin/bash && \
      apt-get install -yqq \
        apt-utils \
        #
@@ -135,7 +135,7 @@ COPY aliases.sh /home/root/aliases.sh
 
 RUN sed -i 's/\r//' /root/aliases.sh && \
     sed -i 's/\r//' /home/root/aliases.sh && \
-#    chown root:root /home/root/aliases.sh && \
+    chown root:root /home/root/aliases.sh && \
     echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
