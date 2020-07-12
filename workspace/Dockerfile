@@ -155,10 +155,10 @@ RUN echo "" >> ~/.bashrc && \
 USER root
 
 # Add the composer.json
-COPY composer.json /home/root/.composer/composer.json
+COPY ./composer.json /home/root/.composer/composer.json
 
 # Add the auth.json for magento 2 credentials
-COPY auth.json /home/root/.composer/auth.json
+COPY ./auth.json /home/root/.composer/auth.json
 
 # Make sure that ~/.composer belongs to laradock
 RUN chown -R root:root /home/root/.composer
@@ -168,6 +168,24 @@ RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
 
 USER root
+
+# Check if global install need to be ran
+ARG COMPOSER_GLOBAL_INSTALL=true
+ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
+
+RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
+    # run the install
+    composer global install \
+;fi
+
+# Check if auth file is disabled
+ARG COMPOSER_AUTH=false
+ENV COMPOSER_AUTH ${COMPOSER_AUTH}
+
+RUN if [ ${COMPOSER_AUTH} = false ]; then \
+    # remove the file
+    rm /home/root/.composer/auth.json \
+;fi
 
 ARG COMPOSER_REPO_PACKAGIST
 ENV COMPOSER_REPO_PACKAGIST ${COMPOSER_REPO_PACKAGIST}
@@ -530,4 +548,4 @@ RUN apt-get clean && \
     rm /var/log/lastlog /var/log/faillog
 
 # Set default work directory
-WORKDIR /var/www
+WORKDIR /var/www/api
