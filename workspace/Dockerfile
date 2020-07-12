@@ -358,7 +358,7 @@ RUN if [ ${NPM_REGISTRY} ]; then \
 # YARN:
 ###########################################################################
 
-USER laradock
+USER root
 
 ARG INSTALL_YARN=false
 ARG YARN_VERSION=latest
@@ -415,8 +415,6 @@ RUN if [ ${INSTALL_SUPERVISOR} = true ]; then \
     sed -i 's/\;files\s.*/files = supervisord.d\/*.conf/g' /etc/supervisord.conf \
   ;fi \
 ;fi
-
-USER laradock
 
 ###########################################################################
 # ImageMagick:
