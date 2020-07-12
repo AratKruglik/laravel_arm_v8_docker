@@ -167,7 +167,7 @@ RUN chown -R root:root /home/root/.composer
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
 
-USER laradock
+USER root
 
 # Check if global install need to be ran
 ARG COMPOSER_GLOBAL_INSTALL=false
