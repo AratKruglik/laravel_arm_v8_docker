@@ -167,36 +167,17 @@ RUN chown -R root:root /home/root/.composer
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
 
-USER root
-
-# Check if global install need to be ran
-ARG COMPOSER_GLOBAL_INSTALL=true
-ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
-
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-   php -r "if (hash_file('sha384', 'composer-setup.php') === 'e5325b19b381bfd88ce90a5ddb7823406b2a38cff6bb704b0acc289a09c8128d4a8ce2bbafcd1fcbdc38666422fe2806') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-   php composer-setup.php \
-   php -r "unlink('composer-setup.php');"
-
-# Check if auth file is disabled
-ARG COMPOSER_AUTH=false
-ENV COMPOSER_AUTH ${COMPOSER_AUTH}
-
-RUN if [ ${COMPOSER_AUTH} = false ]; then \
-    # remove the file
-    rm /home/root/.composer/auth.json \
-;fi
-
-ARG COMPOSER_REPO_PACKAGIST
-ENV COMPOSER_REPO_PACKAGIST ${COMPOSER_REPO_PACKAGIST}
-
-RUN if [ ${COMPOSER_REPO_PACKAGIST} ]; then \
-    composer config -g repo.packagist composer ${COMPOSER_REPO_PACKAGIST} \
-;fi
+RUN curl -sS https://getcomposer.org/installer | php -- \
+         --filename=composer \
+         --install-dir=/usr/local/bin && \
+         echo "alias composer='composer'" >> /root/.bashrc && \
+         composer
 
 # Export composer vendor path
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc
+
+RUN composer install --prefer-source --no-interaction
 
 ###########################################################################
 # Non-root user : PHPUnit path

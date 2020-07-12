@@ -44,7 +44,8 @@ services:
           - https_proxy
           - no_proxy
       volumes:
-        - ./src:/var/www/api
+        - ./src/api:/var/www/api
+        - ./src/client:/var/www/client
         - ./php-worker/supervisord.d:/etc/supervisord.d
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
