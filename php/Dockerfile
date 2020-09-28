@@ -10,8 +10,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
 RUN docker-php-ext-install pdo_mysql mbstring zip sodium
 RUN docker-php-ext-configure pd --with-freetype-dir=/usr/include/ --with-webp-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
