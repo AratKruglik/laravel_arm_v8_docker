@@ -12,8 +12,15 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl
 
-RUN docker-php-ext-install pdo_mysql mbstring zip sodium
-#RUN docker-php-ext-configure pd --with-freetype-dir=/usr/include/ --with-webp-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN apt-get update && \
+    pecl channel-update pecl.php.net && \
+    pecl install apcu igbinary mongodb && \
+    # compile Redis with igbinary support
+    pecl bundle redis && cd redis && phpize && ./configure --enable-redis-igbinary && make && make install && \
+    docker-php-ext-install bcmath sockets && \
+    docker-php-ext-enable apcu igbinary mongodb opcache redis && \
+    docker-php-source delete && \
+    rm -r /tmp/* /var/cache/* /var/www/*
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
