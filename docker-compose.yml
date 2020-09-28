@@ -36,7 +36,9 @@ services:
 
   #Nginx
   webserver:
-    image: arm64v8/nginx:latest
+    build:
+      context: ./nginx/Dockerfile
+    image: arm64v8/nginx:alpine
     container_name: mydancebay_nginx
     tty: true
     ports:
