@@ -1,31 +1,70 @@
-version: '3.5'
+version: '3'
+
 services:
+  #APP PHP
   app:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
     image: arm64v8/php:7.4.10-fpm
-    volumes:
-      - ../app:/var/www/html
-    working_dir: /var/www/html
-    ports:
-      - "8180:80"
-      - "4431:443"
+    container_name: mydancebay_php
+    tty: true
+    restart: unless-stopped
     depends_on:
-      - mysql
-    networks:
-      - mydancebay-network
-  mysql:
-    image: arm64v8/mariadb:latest
-    ports:
-      - "3306:3306"
-    volumes:
-      - "./mysql/database/:/var/lib/mysql"
+      - maridb
     environment:
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_USER=${DB_USERNAME}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-    networks:
-      - mydancebay-network
-networks:
-  mydancebay-network:
-    external:
-      name: mydancebay-network
+      SERVICE_NAME: app
+      SERVICE_TAGS: stage
+    working_dir: /var/www
+    volumes:
+    - ../app:/var/www
+    - ./php/php.ini:/usr/local/etc/php/conf.d/local.ini
+
+  #Database
+  maridb:
+    image: arm64v8/mariadb:latest
+    container_name: mydancebay_mariadb
+    tty: true
+    restart: unless-stopped
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+  #Nginx
+  webserver:
+    image: arm64v8/nginx:latest
+    container_name: mydancebay_nginx
+    tty: true
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ../app:/var/www
+      - ./storage:/var/www/storage
+
+  #Redis
+  redis:
+    image: arm64v8/redis:latest
+    container_name: mydancebay_redis
+    tty: true
+    ports:
+      - '6379:6379'
+    restart: unless-stopped
+
+  #RabbitMQ
+  rabbitmq:
+    image: arm64v8/rabbitmq:latest
+    container_name: mydancebay_rabbitmq
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+      - '15671:15671'
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
