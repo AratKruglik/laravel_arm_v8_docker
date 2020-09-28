@@ -24,7 +24,7 @@ RUN apt-get update && \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY ../src /var/www
+COPY ./src /var/www
 
 EXPOSE 9000
 CMD ["php-fpm"]
