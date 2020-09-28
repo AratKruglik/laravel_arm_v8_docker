@@ -26,9 +26,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY ./src /var/www
 
-RUN chown www-data /var/www -R
-
-USER www-data
-
 EXPOSE 9000
 CMD ["php-fpm"]
