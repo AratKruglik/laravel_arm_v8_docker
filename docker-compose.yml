@@ -30,13 +30,13 @@ services:
       - '3306:3306'
     volumes:
       - ./database/data:/var/lib/mysql/
-      - ./database/conf/my.cnf:/etc/mysql/my.cnf
+#      - ./database/conf/my.cnf:/etc/mysql/my.cnf
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      SERVICE_NAME: app
+      SERVICE_NAME: mydancebay
       SERVICE_TAGS: stage
 
   #Nginx
@@ -55,7 +55,7 @@ services:
     depends_on:
       - app
     environment:
-      SERVICE_NAME: app
+      SERVICE_NAME: mydancebay
       SERVICE_TAGS: stage
 
   #Redis
@@ -67,7 +67,7 @@ services:
       - '6379:6379'
     restart: unless-stopped
     environment:
-      SERVICE_NAME: app
+      SERVICE_NAME: mydancebay
       SERVICE_TAGS: stage
 
   #RabbitMQ
@@ -83,5 +83,5 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-      SERVICE_NAME: app
+      SERVICE_NAME: mydancebay
       SERVICE_TAGS: stage
