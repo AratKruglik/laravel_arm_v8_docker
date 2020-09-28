@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl
 
-RUN docker-php-ext-install pdo_mysql mbstring zip sodium
-RUN docker-php-ext-configure pd --with-freetype-dir=/usr/include/ --with-webp-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+#RUN docker-php-ext-install pdo_mysql mbstring zip sodium
+#RUN docker-php-ext-configure pd --with-freetype-dir=/usr/include/ --with-webp-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
