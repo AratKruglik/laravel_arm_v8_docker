@@ -13,7 +13,7 @@ services:
     depends_on:
       - maridb
     environment:
-      SERVICE_NAME: app
+      SERVICE_NAME: mydancebay
       SERVICE_TAGS: stage
     working_dir: /var/www
     volumes:
@@ -28,14 +28,19 @@ services:
     restart: unless-stopped
     ports:
       - '3306:3306'
+    volumes:
+      - ./database/data:/var/lib/mysql/
+      - ./database/conf/my.cnf:/etc/mysql/my.cnf
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SERVICE_NAME: app
+      SERVICE_TAGS: stage
 
   #Nginx
-  webserver:
+  nginx:
 #    build:
 #      context: ./nginx/Dockerfile
     image: arm64v8/nginx:alpine
@@ -47,6 +52,11 @@ services:
     volumes:
       - ./src:/var/www
       - ./storage:/var/www/storage
+    depends_on:
+      - app
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: stage
 
   #Redis
   redis:
@@ -56,6 +66,9 @@ services:
     ports:
       - '6379:6379'
     restart: unless-stopped
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: stage
 
   #RabbitMQ
   rabbitmq:
@@ -70,3 +83,5 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      SERVICE_NAME: app
+      SERVICE_TAGS: stage
