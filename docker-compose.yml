@@ -34,8 +34,6 @@ services:
     environment:
       SERVICE_NAME: mydancebay_nginx
       SERVICE_TAGS: stage
-    networks:
-      - mydancebay-network
 
   #MySQL Service
   mariadb:
@@ -56,8 +54,6 @@ services:
     volumes:
       - ./docker/mysql/data:/var/lib/mysql/
       - ./docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
-    networks:
-      - mydancebay-network
 
   #Redis
   redis:
@@ -68,10 +64,8 @@ services:
       - '6379:6379'
     restart: unless-stopped
     environment:
-      SERVICE_NAME: mydancebay
+      SERVICE_NAME: mydancebay_redis
       SERVICE_TAGS: stage
-    networks:
-      - mydancebay-network
 
   #RabbitMQ
   rabbitmq:
@@ -86,11 +80,5 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-      SERVICE_NAME: mydancebay
+      SERVICE_NAME: mydancebay_rabbitmq
       SERVICE_TAGS: stage
-    networks:
-      - mydancebay-network
-
-networks:
-  mydancebay-network:
-    internal: true
