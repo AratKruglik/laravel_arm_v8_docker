@@ -4,7 +4,7 @@ services:
   #APP PHP
   app:
     build:
-      context: .
+      context: ./php
       dockerfile: ./php/Dockerfile
     image: arm64v8/php:7.4.10-fpm
     container_name: mydancebay_php
@@ -46,7 +46,7 @@ services:
   #Nginx
   nginx:
     build:
-      context: .
+      context: ./nginx
       dockerfile: ./nginx/Dockerfile
     image: arm64v8/nginx:alpine
     container_name: mydancebay_nginx
