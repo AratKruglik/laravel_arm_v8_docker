@@ -93,5 +93,5 @@ services:
 
 networks:
   mydancebay-network:
-    internal:
-      name: mydancebay-network
+    internal: true
+    name: mydancebay-network
