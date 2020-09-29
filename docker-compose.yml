@@ -29,7 +29,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./:/var/www
+      - ./src:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     environment:
       SERVICE_NAME: mydancebay_nginx
