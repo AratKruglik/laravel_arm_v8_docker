@@ -31,7 +31,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install \
             bcmath \
             sockets \
-        && pecl install amqp \
         && docker-php-ext-enable amqp
 
 # Install composer
