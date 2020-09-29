@@ -37,7 +37,7 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-webp-di
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory contents
-COPY ../../src /var/www
+COPY . /var/www
 
 # Copy existing application directory permissions
 
