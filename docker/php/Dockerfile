@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
-    curl \
+    curl
 #    && pecl install amqp
 
 # Clear cache
@@ -30,7 +30,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install extensions
 RUN docker-php-ext-install \
             bcmath \
-            sockets \
+            sockets
 #        && docker-php-ext-enable amqp
 
 # Install composer
