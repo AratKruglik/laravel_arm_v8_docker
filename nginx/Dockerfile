@@ -1,6 +1,6 @@
 FROM arm64v8/nginx:latest
 
-ARG TZ=Europe/Kiev
+ARG TZ=${WORKSPACE_TIMEZONE}
 
 COPY ./nginx/certs/ /etc/nginx/certs
 COPY ./nginx/sites-available /etc/nginx/sites-available/
