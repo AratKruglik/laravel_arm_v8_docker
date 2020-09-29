@@ -28,15 +28,17 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
-#RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
-#RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-webp-dir=/usr/include/  --with-jpeg-dir=/usr/include/
-RUN docker-php-ext-enable amqp
+RUN docker-php-ext-install \
+            bcmath \
+            sockets \
+        && pecl install amqp \
+        && docker-php-ext-enable amqp
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory contents
-COPY . /var/www
+COPY ./src /var/www
 
 # Copy existing application directory permissions
 
