@@ -21,9 +21,9 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
-    curl \
+    curl
 #    && pecl install amqp \
-    && pecl install redis
+#    && pecl install redis
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
