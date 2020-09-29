@@ -94,4 +94,3 @@ services:
 networks:
   mydancebay-network:
     internal: true
-    name: mydancebay-network
