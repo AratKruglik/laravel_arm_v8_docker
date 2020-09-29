@@ -6,10 +6,6 @@ USER root
 
 COPY ./php/fpm /etc/php/7.4/fpm/pool.d/
 
-RUN apt-get update && \
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/  &&  \
-    docker-php-ext-install gd
-
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && sed -i 's/max_execution_time.*/max_execution_time=600/g' /etc/php/7.4/cli/php.ini \
     && sed -i 's/max_execution_time.*/max_execution_time=600/g' /etc/php/7.4/fpm/php.ini \
