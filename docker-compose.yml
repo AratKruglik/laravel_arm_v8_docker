@@ -1,0 +1,97 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    image: arm64v8/php:7.4.10-fpm
+    container_name: mydancebay_php
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: mydancebay_app
+      SERVICE_TAGS: stage
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./storage:/var/www/storage
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+
+  #Nginx Service
+  nginx:
+    image: arm64v8/nginx:alpine
+    container_name: mydancebay_nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    environment:
+      SERVICE_NAME: mydancebay_nginx
+      SERVICE_TAGS: stage
+    networks:
+      - mydancebay-network
+
+  #MySQL Service
+  mariadb:
+    image: arm64v8/mariadb:latest
+    container_name: mydancebay_maruiadb
+    command: "--default-authentication-plugin=mysql_native_password"
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MARIADB_DATABASE}
+      MYSQL_USER: ${MARIADB_USER}
+      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      SERVICE_NAME: mydancebay_mariadb
+      SERVICE_TAGS: stage
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql/
+      - ./docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - mydancebay-network
+
+  #Redis
+  redis:
+    image: arm64v8/redis:latest
+    container_name: mydancebay_redis
+    tty: true
+    ports:
+      - '6379:6379'
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: mydancebay
+      SERVICE_TAGS: stage
+    networks:
+      - mydancebay-network
+
+  #RabbitMQ
+  rabbitmq:
+    image: arm64v8/rabbitmq:latest
+    container_name: mydancebay_rabbitmq
+    restart: unless-stopped
+    tty: true
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+      - '15671:15671'
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      SERVICE_NAME: mydancebay
+      SERVICE_TAGS: stage
+    networks:
+      - mydancebay-network
+
+networks:
+  mydancebay-network:
+    external:
+      name: mydancebay-network
