@@ -17,7 +17,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         pdo_mysql \
         zip \
     && pecl install amqp \
-    && docker-php-ext-enable amqp
+    && docker-php-ext-enable amqp \
+    && sed -i -e "s/extension=amqp.so/g" /etc/php/7.4/fpm/php.ini \
+    && sed -i -e "extension=amqp.so" /etc/php/7.4/fpm/php.ini \
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && chmod -R 755 /usr/local/sbin \
