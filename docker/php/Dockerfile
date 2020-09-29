@@ -1,4 +1,4 @@
-FROM arm64v8/php:7.4.10-fpm
+FROM php:7.4.10-fpm
 
 USER root
 

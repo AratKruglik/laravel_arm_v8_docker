@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/php/Dockerfile
-    image: arm64v8/php:7.4.10-fpm
+    image: php:7.4.10-fpm
     container_name: mydancebay_php
     restart: unless-stopped
     tty: true
