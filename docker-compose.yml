@@ -41,7 +41,7 @@ services:
   #MySQL Service
   mariadb:
     image: arm64v8/mariadb:latest
-    container_name: mydancebay_maruiadb
+    container_name: mydancebay_mariadb
     command: "--default-authentication-plugin=mysql_native_password"
     restart: unless-stopped
     tty: true
