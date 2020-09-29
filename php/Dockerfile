@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         zlib1g-dev \
         libxml2-dev \
-        libssl-dev librabbitmq-c-dev \
+        libssl-dev librabbitmq-dev \
         libzip-dev \
         libonig-dev \
     && docker-php-ext-install \
