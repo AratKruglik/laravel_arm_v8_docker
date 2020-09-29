@@ -4,7 +4,7 @@ WORKDIR /var/www
 
 USER root
 
-COPY ./fpm /etc/php/7.4/fpm/pool.d/
+COPY ./php/fpm /etc/php/7.4/fpm/pool.d/
 
 RUN adduser --system --no-create-home --group www-data \
     && tk-install ssl-cert \
