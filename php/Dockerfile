@@ -6,8 +6,7 @@ USER root
 
 COPY ./php/fpm /etc/php/7.4/fpm/pool.d/
 
-RUN apt-get -y update && apt-get -y install -o Dpkg::Options::="--force-confold" --no-install-recommends php7.4-mysql php7.4-gd php7.4-zip php7.4-xml php7.4-curl php7.4-bcmath php-bcmath php-pear php-dev build-essential \
-    && apt-get autoremove -y && apt-get autoclean -y && apt-get clean -y \
+RUN apt-get -y update && apt-get -y install php7.4-common php7.4-bcmath openssl php7.4-json php7.4-mbstring \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && sed -i 's/max_execution_time.*/max_execution_time=600/g' /etc/php/7.4/cli/php.ini \
     && sed -i 's/max_execution_time.*/max_execution_time=600/g' /etc/php/7.4/fpm/php.ini \
