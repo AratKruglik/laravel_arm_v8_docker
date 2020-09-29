@@ -6,8 +6,7 @@ USER root
 
 COPY ./php/fpm /etc/php/7.4/fpm/pool.d/
 
-RUN adduser --system --no-create-home --group www-data \
-    && tk-install ssl-cert \
+RUN tk-install ssl-cert \
     && apt-get -y update && apt-get -y install -o Dpkg::Options::="--force-confold" --no-install-recommends php7.4-mysql php7.4-gd php7.4-zip php7.4-xml php7.4-curl php7.4-bcmath php-bcmath php-pear php-dev build-essential \
     && apt-get autoremove -y && apt-get autoclean -y && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
@@ -24,8 +23,6 @@ RUN adduser --system --no-create-home --group www-data \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./src /var/www
-
-USER www-data
 
 EXPOSE 9000
 
