@@ -4,7 +4,6 @@ services:
   #APP PHP
   app:
     build:
-      context: .
       dockerfile: ./php/Dockerfile
     image: arm64v8/php:7.4.10-fpm
     container_name: mydancebay_php
@@ -17,8 +16,10 @@ services:
       SERVICE_TAGS: stage
     working_dir: /var/www
     volumes:
-    - ./src:/var/www
-    - ./php/php.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./src:/var/www
+      - ./storage:/var/www/storage
+    networks:
+      - mydancebay-network
 
   #Database
   maridb:
@@ -32,17 +33,19 @@ services:
       - ./database/data:/var/lib/mysql/
 #      - ./database/conf/my.cnf:/etc/mysql/my.cnf
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MARIADB_DATABASE}
+      MYSQL_USER: ${MARIADB_USER}
+      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       SERVICE_NAME: mydancebay
       SERVICE_TAGS: stage
+    networks:
+      - mydancebay-network
 
   #Nginx
   nginx:
-#    build:
-#      context: ./nginx/Dockerfile
+    build:
+      dockerfile: ./nginx/Dockerfile
     image: arm64v8/nginx:alpine
     container_name: mydancebay_nginx
     tty: true
@@ -57,6 +60,8 @@ services:
     environment:
       SERVICE_NAME: mydancebay
       SERVICE_TAGS: stage
+    networks:
+      - mydancebay-network
 
   #Redis
   redis:
@@ -69,6 +74,8 @@ services:
     environment:
       SERVICE_NAME: mydancebay
       SERVICE_TAGS: stage
+    networks:
+      - mydancebay-network
 
   #RabbitMQ
   rabbitmq:
@@ -85,3 +92,10 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
       SERVICE_NAME: mydancebay
       SERVICE_TAGS: stage
+    networks:
+      - mydancebay-network
+
+networks:
+  mop-network:
+    external:
+      name: mydancebay-network
