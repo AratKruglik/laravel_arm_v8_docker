@@ -7,6 +7,4 @@ COPY ./nginx/sites-available /etc/nginx/sites-available/
 
 WORKDIR /etc/nginx/
 
-ENTRYPOINT ["/entrypoint.sh"]
-
 CMD ["nginx", "-g", "daemon off;"]
