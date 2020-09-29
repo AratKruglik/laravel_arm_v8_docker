@@ -21,8 +21,9 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
-    curl
-#    && pecl install amqp
+    curl \
+#    && pecl install amqp \
+    && pecl install redis
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -30,8 +31,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install extensions
 RUN docker-php-ext-install \
             bcmath \
-            sockets
-#        && docker-php-ext-enable amqp
+            sockets \
+#        && docker-php-ext-enable amqp \
+        && docker-php-ext-enable redis
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
