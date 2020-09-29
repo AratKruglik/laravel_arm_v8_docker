@@ -35,10 +35,10 @@ RUN docker-php-ext-install \
 #        && docker-php-ext-enable amqp \
 #        && docker-php-ext-enable redis
 
-RUN echo extension=redis.so >> /etc/php/7.4/fpm/php.ini \
-    && echo extension=amqp.so >> /etc/php/7.4/fpm/php.ini \
-    && echo extension=redis.so >> /etc/php/7.4/cli/php.ini \
-    && echo extension=amqp.so >> /etc/php/7.4/cli/php.ini
+RUN echo extension=redis.so >> /usr/local/etc/php/conf.d/local.ini \
+    && echo extension=amqp.so >> /usr/local/etc/php/conf.d/local.ini \
+    && echo extension=redis.so >> /usr/local/etc/php/conf.d/local.ini \
+    && echo extension=amqp.so >> /usr/local/etc/php/conf.d/local.ini
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
