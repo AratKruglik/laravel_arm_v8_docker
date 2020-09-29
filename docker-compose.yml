@@ -98,6 +98,6 @@ services:
       - mydancebay-network
 
 networks:
-  mop-network:
+  mydancebay-network:
     external:
       name: mydancebay-network
